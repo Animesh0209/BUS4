@@ -1,13 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField
+from wtforms import StringField, PasswordField, SelectField, SubmitField, BooleanField, TextAreaField, IntegerField, FloatField
 from wtforms.fields.datetime import DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Optional, Length, NumberRange
 from datetime import date
 
 
+# register
 class RegisterForm(FlaskForm):
-    last_name = StringField("Last name:", validators=[DataRequired()])
     first_name = StringField("First name(s):", validators=[DataRequired()])
+    last_name = StringField("Last name:", validators=[DataRequired()])
     email = StringField("Email:", validators=[DataRequired(), Length(min=8)])
     password = PasswordField("Password:", validators=[DataRequired(), Length(min=8)])
     role = SelectField("What's your role?", choices=[
@@ -18,13 +19,78 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Register")
 
 
+# login
 class LoginForm(FlaskForm):
     email = StringField("Email:", validators=[DataRequired()])
     password = PasswordField("Password:", validators=[DataRequired()])
     submit = SubmitField("Login")
 
 
-class HealthForm(FlaskForm):
+# initial health log, to be displayed once after registration only
+class FirstHealthForm(FlaskForm):
+    # HEALTH CONDITIONS
+    hypertension = BooleanField('Hypertension')
+    diabetes = BooleanField('Diabetes')
+    heart_disease = BooleanField('Heart Disease')
+    arthritis = BooleanField('Arthritis')
+    osteoporosis = BooleanField('Osteoporosis')
+    copd = BooleanField('COPD')
+    stroke = BooleanField('Stroke')
+    dementia = BooleanField('Dementia / Alzheimer’s')
+    vision_problems = BooleanField('Vision Problems')
+    hearing_loss = BooleanField('Hearing Loss')
     date = DateField("Date:", format="%d-%m-%Y", default=date.today, validators=[DataRequired()])
-    status = StringField("Health status:", validators=[DataRequired(), Length(max=500)])
-    ### or SelectField of specific health issues and a StringField with other info
+
+    # MEDICATIONS
+    medication_name = StringField("Medication Name", validators=[DataRequired(), Length(max=100)])
+    dosage = StringField("Dosage (e.g., 10mg)", validators=[DataRequired()])
+    notes = TextAreaField("Notes", validators=[Optional(), Length(max=300)])
+
+    # LIFESTYLE & ALLERGIES
+    allergies = TextAreaField('Allergies / Reactions', validators=[Optional()])
+    smoking_status = SelectField('Smoking Status',
+                                 choices=[('never', 'Never'), ('former', 'Former'), ('current', 'Current')],
+                                 validators=[Optional()])
+    alcohol_consumption = SelectField('Alcohol Consumption',
+                                      choices=[('none', 'None'), ('occasional', 'Occasional'), ('regular', 'Regular')],
+                                      validators=[Optional()])
+    physical_activity = SelectField('Physical Activity',
+                                    choices=[('low', 'Low'), ('moderate', 'Moderate'), ('high', 'High')],
+                                    validators=[Optional()])
+    submit = SubmitField('Submit Health Record')
+
+
+# form that can be completed whenever patient needs, will be a <a href="">
+class RecurrentHealthForm(FlaskForm):
+    temperature = FloatField(
+        "Temperature (°C)",
+        validators=[
+            Optional(),
+            NumberRange(min=30, max=45)],
+        render_kw={"placeholder": "e.g. 36.5"})
+    bp_systolic = IntegerField(
+        "Blood Pressure - Top Number",
+        validators=[
+            Optional(),
+            NumberRange(min=70, max=250)],
+        render_kw={"placeholder": "e.g. 120"})
+    bp_diastolic = IntegerField(
+        "Blood Pressure - Bottom Number",
+        validators=[
+            Optional(),
+            NumberRange(min=40, max=150)],
+        render_kw={"placeholder": "e.g. 80"})
+    mood = SelectField(
+        "How are you feeling today?",
+        choices=[
+            ("", "Select"),
+            ("good", "Good"),
+            ("okay", "Okay"),
+            ("low", "Low"),
+            ("unwell", "Feeling unwell")],
+        validators=[Optional()])
+    notes = TextAreaField(
+        "Notes (optional)",
+        validators=[Optional(), Length(max=500)],
+        render_kw={"placeholder": "Anything else you'd like to record? (e.g. fall/injury)"})
+    submit = SubmitField("Save Health Record")
