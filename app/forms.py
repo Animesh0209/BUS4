@@ -27,4 +27,9 @@ class LoginForm(FlaskForm):
 class HealthForm(FlaskForm):
     date = DateField("Date:", format="%d-%m-%Y", default=date.today, validators=[DataRequired()])
     status = StringField("Health status:", validators=[DataRequired(), Length(max=500)])
+    symptoms = SelectField(
+        "Product",
+        choices=[("headache", "Headache"), ("dissy", "Dissy"), ("imbalance", "Imbalance")],
+        validators=[DataRequired()]
+    )
     ### or SelectField of specific health issues and a StringField with other info

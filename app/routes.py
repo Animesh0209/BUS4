@@ -4,6 +4,7 @@ from app import app
 from app import db
 from app.forms import RegisterForm, LoginForm, HealthForm
 from app.models import User, HealthRecord
+from sqlalchemy.exc import IntegrityError
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
