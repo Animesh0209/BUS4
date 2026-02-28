@@ -44,7 +44,7 @@ def authenticate_user():
 
 @app.route('/logout')
 def logout():
-    session.clear()
+    session.pop()
     return redirect(url_for('authenticate_user'))
 
 # to complete
@@ -54,7 +54,21 @@ def get_health_data():
 
 
 def update_health_data():
-    pass
+    form = HealthForm()
+    if form.validate_on_submit():
+        data = HealthRecord()
+        form.populate_obj(data)
+        try:
+            db.session.add(data)
+            db.session.commit()
+            flash("Health data added!")
+            return redirect(url_for('index'))
+        except IntegrityError:         #modify this to other error in the future
+            db.session.rollback()
+            flash("Some error", "error")
+
+    return render_template('updateHealth.html',form=form)
+
 
 def generate_auth_code():
     pass
