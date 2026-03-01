@@ -39,7 +39,7 @@ class FirstHealthForm(FlaskForm):
     dementia = BooleanField('Dementia / Alzheimer’s')
     vision_problems = BooleanField('Vision Problems')
     hearing_loss = BooleanField('Hearing Loss')
-    date = DateField("Date:", format="%d-%m-%Y", default=date.today, validators=[DataRequired()])
+    date = DateField("Date:", format="%Y-%m-%d", default=date.today, validators=[DataRequired()])
 
     # MEDICATIONS
     medication_name = StringField("Medication Name", validators=[DataRequired(), Length(max=100)])
@@ -94,3 +94,22 @@ class RecurrentHealthForm(FlaskForm):
         validators=[Optional(), Length(max=500)],
         render_kw={"placeholder": "Anything else you'd like to record? (e.g. fall/injury)"})
     submit = SubmitField("Save Health Record")
+
+# form to be completed by GP whenever they have a check-up with a patient.
+class CheckupForm(FlaskForm):
+    patient_last_name = StringField("Last name of patient:", validators=[DataRequired()])
+    patient_first_name = StringField("First name(s) of patient:", validators=[DataRequired()])
+    checkup_date = DateField("Date:", format="%Y-%m-%d", default=date.today, validators=[DataRequired()])
+    medication = StringField(
+        "Prescribed Medication(s) (Type N/A if none):",
+        validators=[DataRequired(), Length(max=100)]
+    )
+    dosage = StringField(
+        "Dosage(s) (Type N/A if none):",
+        validators=[DataRequired(), Length(max=100)]
+    )
+    notes = TextAreaField(
+        "Check-up Notes:",
+        validators=[DataRequired(), Length(max=500)]
+    )
+    submit = SubmitField("Submit Check-up Record")
