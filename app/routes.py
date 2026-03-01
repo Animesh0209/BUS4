@@ -1,8 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import render_template, redirect, url_for, flash, request, session,
+from flask import render_template, redirect, url_for, flash, request, session
 from app import app
 from app import db
-from app.forms import RegisterForm, LoginForm, HealthForm
+from app.forms import RegisterForm, LoginForm, FirstHealthForm, RecurrentHealthForm
 from app.models import User, HealthRecord
 
 @app.route('/', methods=['GET', 'POST'])

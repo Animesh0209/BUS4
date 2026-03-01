@@ -1,0 +1,102 @@
+/* Full page background */
+body{
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+   font-family:'HelveticaNeue','Arial', sans-serif;
+}
+
+/* Links */
+a { color:#8494FF; text-decoration: none; }
+a:hover { color:#FFDBFD; }
+
+/* Utility classes */
+.pull-right { float: right; }
+.pull-left { float: left; }
+.clear-fix { clear:both; }
+
+/* Logo */
+div.logo { text-align: center; margin: 20px 20px 30px 20px; fill: #566375; }
+
+/* Form wrapper overlay */
+#formWrapper{
+  background: rgba(0,0,0,.3);
+  width:100%;
+  height:100%;
+  position: absolute;
+  top:0;
+  left:0;
+  transition:all .3s ease;
+}
+.darken-bg{background: rgba(0,0,0,.5) !important; transition:all .3s ease;}
+
+/* Form card */
+div#form{
+  position: absolute;
+  width:360px;
+  height:auto;
+  background-color: #6367FF; /* Primary blue */
+  margin:auto;
+  border-radius: 20px;
+  padding:40px;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  color: white;
+}
+
+/* Each form field wrapper */
+div.form-item { position: relative; display: block; margin-bottom: 20px; }
+
+/* Input styling */
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 8px;
+}
+
+/* WTForms inputs */
+input.form-style{
+  color:#6367FF;
+  display: block;
+  width: 90%;
+  height: 44px;
+  padding: 5px 5%;
+  border:1px solid #8494FF;
+  border-radius: 27px;
+  background-clip: padding-box;
+  background-color: #C9BEFF; /* Lighter blue */
+  font-family:'HelveticaNeue','Arial', sans-serif;
+  font-size: 105%;
+  letter-spacing: .8px;
+  transition: all 0.3s ease;
+}
+div.form-item .form-style:focus{
+  outline: none;
+  border:1px solid #6367FF;
+  color:#6367FF;
+  background-color:#FFDBFD; /* Accent on focus */
+}
+
+/* Submit button */
+input[type="submit"].login{
+  float:right;
+  width: 112px;
+  height: 37px;
+  border-radius: 19px;
+  background-color: #8494FF; /* Button color */
+  border:none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+input[type="submit"].login:hover{
+  background-color: #FFDBFD; /* Button hover accent */
+  color:#6367FF;
+}
