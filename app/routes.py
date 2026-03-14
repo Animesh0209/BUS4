@@ -17,35 +17,39 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
+
+    if request.method == "POST":
+        print("POST request received")
+
     if form.validate_on_submit():
+        print("Form validation passed")
+
         email = form.email.data.lower()
         existing_user = User.query.filter_by(email=email).first()
+
         if existing_user:
             flash("Email already registered!")
             return render_template('register.html', form=form)
 
         hashed_password = generate_password_hash(form.password.data)
+
         user = User(
             email=form.email.data,
             password=hashed_password,
             role=form.role.data,
         )
+
         db.session.add(user)
         db.session.commit()
 
-        if user.role == "patient":
-            patient_profile = PatientProfile(
-                user_id=user.id,
-                first_name=form.first_name.data,
-                last_name=form.last_name.data,
-                date_of_birth=form.date_of_birth.data,
-            )
-            db.session.add(patient_profile)
-            db.session.commit()
-            return redirect(url_for("patient_profile", patient_id=user.id))
+        print("User saved:", user.email)
 
-        flash("Registration successful! Please log in.")
+        flash("Registration successful!")
         return redirect(url_for("login"))
+
+    else:
+        if request.method == "POST":
+            print("Form errors:", form.errors)
 
     return render_template("register.html", form=form)
 
@@ -65,7 +69,11 @@ def login():
 
             if user.role == "patient":
                 profile = PatientProfile.query.filter_by(user_id=user.id).first()
-                session["user_name"] = f"{profile.first_name} {profile.last_name}"
+
+                if profile:
+                    session["user_name"] = f"{profile.first_name} {profile.last_name}"
+                else:
+                    session["user_name"] = user.email
             else:
                 session["user_name"] = user.email
             flash(f"Welcome back, {session['user_name']}!")

@@ -9,8 +9,7 @@ from datetime import date
 class RegisterForm(FlaskForm):
     first_name = StringField("First name(s):", validators=[DataRequired()])
     last_name = StringField("Last name:", validators=[DataRequired()])
-    date_of_birth = DateField("Date of birth:", format="%d-%m-%Y", default=date.today, validators=[DataRequired()])
-
+    date_of_birth = DateField("Date of birth:", format="%Y-%m-%d", validators=[DataRequired()])
     email = StringField("Email:", validators=[DataRequired(), Length(min=8)])
     password = PasswordField("Password:", validators=[DataRequired(), Length(min=8)])
     role = SelectField("What's your role?", choices=[
@@ -19,6 +18,8 @@ class RegisterForm(FlaskForm):
         ("gp", "General Practitioner (GP)")],
         validators=[DataRequired()])
     submit = SubmitField("Register")
+
+    #
 
 #----------------------------------------------------------------------#
 

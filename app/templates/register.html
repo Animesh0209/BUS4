@@ -3,6 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
+
 <div class="logo">
     <h2 style="color:white;">Crosscheck Registration</h2>
 </div>
@@ -10,36 +11,58 @@
 <form method="POST">
     {{ form.hidden_tag() }}
 
-    <div class="form-item">
-        {{ form.first_name(class="form-style", placeholder="First Name") }}
+```
+<!-- Display validation errors -->
+{% if form.errors %}
+    <div style="color:red; margin-bottom:15px;">
+        {% for field, errors in form.errors.items() %}
+            {% for error in errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
     </div>
+{% endif %}
 
-    <div class="form-item">
-        {{ form.last_name(class="form-style", placeholder="Last Name") }}
-    </div>
+<div class="form-item">
+    {{ form.first_name.label(style="color:white;") }}
+    {{ form.first_name(class="form-style", placeholder="First Name") }}
+</div>
 
-    <div class="form-item">
-        {{ form.date_of_birth(class="form-style", placeholder="Date of Birth") }}
-    </div>
+<div class="form-item">
+    {{ form.last_name.label(style="color:white;") }}
+    {{ form.last_name(class="form-style", placeholder="Last Name") }}
+</div>
 
-    <div class="form-item">
-        {{ form.email(class="form-style", placeholder="Email") }}
-    </div>
+<div class="form-item">
+    {{ form.date_of_birth.label(style="color:white;") }}
+    {{ form.date_of_birth(class="form-style") }}
+</div>
 
-    <div class="form-item">
-        {{ form.password(class="form-style", placeholder="Password") }}
-    </div>
+<div class="form-item">
+    {{ form.email.label(style="color:white;") }}
+    {{ form.email(class="form-style", placeholder="Email") }}
+</div>
 
-    <div class="form-item">
-        {{ form.role(class="form-style") }}
-    </div>
+<div class="form-item">
+    {{ form.password.label(style="color:white;") }}
+    {{ form.password(class="form-style", placeholder="Password") }}
+</div>
 
+<div class="form-item">
+    {{ form.role.label(style="color:white;") }}
+    {{ form.role(class="form-style") }}
+</div>
+
+<div class="form-item">
     {{ form.submit(class="login", value="Register") }}
+</div>
+```
 
-    <div class="clear-fix"></div>
 </form>
 
 <p style="color:white; margin-top:15px; text-align:center;">
-    Already have an account? <a href="{{ url_for('login') }}">Login</a>
+    Already have an account?
+    <a href="{{ url_for('login') }}" style="color:white;">Login</a>
 </p>
+
 {% endblock %}
